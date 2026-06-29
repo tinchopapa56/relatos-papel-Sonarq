@@ -1,0 +1,70 @@
+---
+description: Formularios con Formik + Yup — cómo estructurar y validar formularios en el proyecto
+globs: **/*.tsx
+alwaysApply: false
+---
+
+# Formularios con Formik + Yup
+
+Todo formulario usa **Formik** para estado y **Yup** para validación. No usar `useState` para manejar campos de formulario.
+
+## Estructura base
+
+```tsx
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+
+const validationSchema = Yup.object({
+  email: Yup.string().email('Email inválido').required('Requerido'),
+  password: Yup.string().min(6, 'Mínimo 6 caracteres').required('Requerido'),
+})
+
+const {
+  values,
+  errors,
+  touched,
+  isSubmitting,
+  handleChange,
+  handleBlur,
+  handleSubmit,
+} = useFormik({
+  initialValues: { email: '', password: '' },
+  validationSchema,
+  onSubmit: async (values) => { /* lógica */ },
+})
+```
+
+Siempre destructurar `useFormik` — nunca usar `formik.values`, `formik.errors`, etc.
+
+## Mostrar errores
+
+Los errores solo aparecen después de que el campo fue tocado (`touched`), nunca al cargar la página.
+
+```tsx
+<input
+  name="email"
+  value={values.email}
+  onChange={handleChange}
+  onBlur={handleBlur}
+  className={`... ${touched.email && errors.email ? 'border-error' : 'border-border'}`}
+/>
+{touched.email && errors.email && (
+  <p className="text-xs text-error">{errors.email}</p>
+)}
+```
+
+## Submit button
+
+```tsx
+<button type="submit" disabled={isSubmitting}>
+  {isSubmitting ? 'Guardando…' : 'Guardar'}
+</button>
+```
+
+## Reglas
+
+- `noValidate` siempre en el `<form>` para desactivar validación nativa del browser
+- El esquema Yup va fuera del componente (no se recrea en cada render)
+- `onSubmit` en `useFormik` es siempre `async`
+- ❌ No usar `onChange` con `useState` para campos de formulario
+- ❌ No usar `<Formik>` como componente — usar el hook `useFormik`

@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens ───────────────────────────────────────────────────────────
+   Tailwind v4 token setup.
+   ──────────────────────────────────────────────────────────────────────────── */
+@theme {
+  --color-primary: #aa3bff;
+  --color-primary-hover: #9521f0;
+  --color-primary-subtle: color-mix(in srgb, #aa3bff 10%, transparent);
+
+  --color-secondary: #c2820a;
+  --color-secondary-hover: #a36d08;
+
+  --color-surface: #ffffff;
+  --color-raised: #f4f3ec;
+
+  --color-text: #08060d;
+  --color-muted: #6b6375;
+  --color-heading: #08060d;
+
+  --color-border: #e5e4e7;
+
+  --color-error: #dc2626;
+  --color-success: #16a34a;
+
+  --font-sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-heading: system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, Consolas, monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md:
+    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+}
+
+/* ─── Base theme defaults ──────────────────────────────────────────────────── */
+:root {
+  font: 18px/145% var(--font-sans);
+  letter-spacing: 0.18px;
+  color-scheme: light;
+  color: var(--color-muted);
+  background: var(--color-surface);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Manual dark mode override ────────────────────────────────────────────── */
+html.dark {
+  color-scheme: dark;
+  --color-primary: #c084fc;
+  --color-primary-hover: #a855f7;
+  --color-primary-subtle: color-mix(in srgb, #c084fc 12%, transparent);
+
+  --color-secondary: #f0ab2f;
+  --color-secondary-hover: #e09520;
+
+  --color-surface: #16171d;
+  --color-raised: #1f2028;
+
+  --color-text: #f3f4f6;
+  --color-muted: #9ca3af;
+  --color-heading: #f3f4f6;
+
+  --color-border: #2e303a;
+
+  --color-error: #f87171;
+  --color-success: #4ade80;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md:
+    rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+}
+
+/* ─── Global layout safety ────────────────────────────────────────────────── */
+html,
+body {
+  min-width: 320px;
+  min-height: 100%;
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+#root {
+  width: 100%;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow-x: clip;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}

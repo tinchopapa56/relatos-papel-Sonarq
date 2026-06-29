@@ -1,0 +1,77 @@
+---
+description: Convenciones generales del proyecto — naming, path alias, barrel exports, tipos, estructura de App.tsx
+alwaysApply: true
+---
+
+# Convenciones del proyecto
+
+## Path alias
+
+`@/` apunta a `src/`. Usarlo siempre para imports entre features o desde shared.
+
+```ts
+// ✅
+import { useAuth } from '@/features/auth'
+import { formatPrice } from '@/lib/formatters'
+
+// ❌
+import { useAuth } from '../../features/auth'
+```
+
+## Barrel exports
+
+Cada feature expone su API pública a través de `index.ts`. No importar archivos internos de otras features directamente.
+
+```ts
+// src/features/auth/index.ts
+export { AuthProvider, useAuth } from './AuthContext'
+export { default as LoginPage } from './LoginPage'
+
+// ✅ consumo correcto
+import { useAuth, LoginPage } from '@/features/auth'
+
+// ❌
+import { useAuth } from '@/features/auth/AuthContext'
+```
+
+## Tipos por feature
+
+Cada feature tiene su propio `types.ts`. No existe `src/types/` global.
+
+```
+src/features/books/types.ts   ← Book, BookDetail, BookFilters
+src/features/cart/types.ts    ← CartItem, CartState
+src/features/auth/types.ts    ← User, AuthState
+```
+
+## Nomenclatura
+
+| Elemento | Convención | Ejemplo |
+|---|---|---|
+| Componentes | PascalCase | `BookCard.tsx`, `LoginForm.tsx` |
+| Hooks | camelCase + prefijo `use` | `useAuth.ts`, `useCart.ts` |
+| Utils / helpers | camelCase | `formatPrice.ts`, `buildQuery.ts` |
+| Tipos / interfaces | PascalCase | `BookDetail`, `CartItem` |
+| Archivos de contexto | PascalCase + sufijo `Context` | `AuthContext.tsx` |
+
+## App.tsx
+
+`App.tsx` solo monta providers y el router. Sin JSX de UI propio.
+
+```tsx
+// ✅
+function App() {
+  return (
+    <div className="flex min-h-screen flex-col">
+      <Navbar />
+      <AppRouter />
+    </div>
+  )
+}
+
+// ❌ — lógica de negocio o UI específica en App.tsx
+function App() {
+  const [books, setBooks] = useState([])
+  return <BookList books={books} />
+}
+```

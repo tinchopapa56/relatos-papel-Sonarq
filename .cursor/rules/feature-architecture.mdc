@@ -1,0 +1,77 @@
+---
+description: Arquitectura de carpetas por feature — cómo organizar código, qué va dónde y la regla de no cruzar features
+alwaysApply: true
+---
+
+# Arquitectura feature-based
+
+## Estructura de carpetas
+
+```
+src/
+├── features/
+│   ├── auth/
+│   │   ├── AuthContext.tsx   ← estado y hook de autenticación
+│   │   ├── LoginPage.tsx     ← página del dominio
+│   │   ├── LoginForm.tsx     ← componente interno
+│   │   ├── useLogin.ts       ← hook interno
+│   │   ├── types.ts          ← tipos del dominio
+│   │   └── index.ts          ← API pública de la feature
+│   ├── books/
+│   ├── cart/
+│   ├── profile/
+│   └── landing/
+├── router/                   ← AppRouter.tsx, ProtectedRoute.tsx
+├── shared/                   ← Navbar, componentes sin dominio específico
+└── lib/                      ← utils puras (formatters, validators)
+```
+
+## Regla principal: features no se importan entre sí
+
+```ts
+// ❌ — feature importando directamente otra feature
+// src/features/cart/CheckoutPage.tsx
+import { useAuth } from '../auth/AuthContext'
+
+// ✅ — importar desde el index.ts público
+import { useAuth } from '@/features/auth'
+```
+
+Si algo necesita cruzar más de una feature → sube a `shared/` o `context/`.
+
+## Qué va en cada carpeta
+
+| Carpeta | Contiene |
+|---|---|
+| `features/<nombre>/` | Todo lo que pertenece a ese dominio: páginas, componentes, hooks, tipos, contexto |
+| `router/` | Solo `AppRouter.tsx` y `ProtectedRoute.tsx` |
+| `shared/` | Componentes de layout o UI genérica que no pertenecen a ningún dominio (Navbar, Button, Modal) |
+| `lib/` | Funciones puras sin dependencias de React (formatters, validators, helpers de fecha) |
+
+## Cuándo crear una nueva feature
+
+Cuando una funcionalidad tiene su propia página y/o estado propio. Ejemplos: `wishlist/`, `orders/`, `reviews/`.
+
+## Página vs componente
+
+- La **página** solo ensambla componentes del mismo dominio y los ubica en pantalla.
+- La **lógica** (fetch, estado, efectos) vive en hooks dentro de la feature.
+
+```tsx
+// ✅ — página delgada
+export default function HomePage() {
+  return (
+    <main>
+      <BookFilters />
+      <BookCatalog />
+    </main>
+  )
+}
+
+// ❌ — página con lógica de negocio
+export default function HomePage() {
+  const [books, setBooks] = useState([])
+  useEffect(() => { fetch('/api/books').then(...) }, [])
+  return <div>{books.map(...)}</div>
+}
+```

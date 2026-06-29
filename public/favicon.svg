@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="gA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff00c8"/>
+      <stop offset="60%" stop-color="#7a5aff"/>
+      <stop offset="100%" stop-color="#4dd0ff"/>
+    </linearGradient>
+    <linearGradient id="gB" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff9a00"/>
+      <stop offset="60%" stop-color="#ff3b3b"/>
+      <stop offset="100%" stop-color="#ff00c8"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="64" height="64" rx="8" fill="transparent"/>
+
+  <g filter="url(#glow)">
+    <!-- left book -->
+    <rect x="6" y="10" width="12" height="44" rx="2" fill="url(#gA)" stroke="url(#gA)" stroke-width="1.6"/>
+    <g stroke="#ffffff" stroke-opacity="0.35" stroke-linecap="round" stroke-width="1.6">
+      <path d="M9 18 H15"/>
+      <path d="M9 24 H15"/>
+      <path d="M9 30 H15"/>
+    </g>
+
+    <!-- center (open/tall) book -->
+    <rect x="24" y="6" width="14" height="52" rx="2" fill="#fcfcfc" stroke="#e6e6e6" stroke-width="1"/>
+    <g stroke="#6b6375" stroke-opacity="0.28" stroke-linecap="round" stroke-width="1.6">
+      <path d="M26 16 H36"/>
+      <path d="M26 24 H36"/>
+      <path d="M26 32 H36"/>
+    </g>
+
+    <!-- right neon book -->
+    <rect x="44" y="12" width="14" height="40" rx="2" fill="url(#gB)" stroke="url(#gB)" stroke-width="1.6"/>
+    <g stroke="#ffffff" stroke-opacity="0.28" stroke-linecap="round" stroke-width="1.6">
+      <path d="M47 20 V44"/>
+      <path d="M51 20 V44"/>
+      <path d="M55 20 V44"/>
+    </g>
+  </g>
+</svg>

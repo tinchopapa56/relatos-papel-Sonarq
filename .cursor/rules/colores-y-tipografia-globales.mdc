@@ -1,0 +1,76 @@
+---
+description: Colores y tipografía globales — tokens de diseño con Tailwind v4, cómo definirlos y consumirlos
+globs: **/*.{tsx,ts,css}
+alwaysApply: false
+---
+
+# Colores y tipografía globales
+
+Tokens definidos en `src/index.css` dentro de `@theme`. Tailwind v4 genera utilidades automáticamente a partir de ellos.
+
+## Colores
+
+| Token CSS | Clase Tailwind | Uso |
+|---|---|---|
+| `--color-primary` | `bg-primary` `text-primary` `border-primary` | CTAs, links, énfasis |
+| `--color-primary-hover` | `text-primary-hover` | Estado hover del primary |
+| `--color-primary-subtle` | `bg-primary-subtle` | Fondos de hover suaves |
+| `--color-secondary` | `bg-secondary` `text-secondary` | Acentos secundarios |
+| `--color-surface` | `bg-surface` | Fondo base de la app |
+| `--color-raised` | `bg-raised` | Cards, inputs, tooltips |
+| `--color-heading` | `text-heading` | Títulos y encabezados |
+| `--color-muted` | `text-muted` | Texto secundario |
+| `--color-text` | `text-text` | Cuerpo de texto principal |
+| `--color-border` | `border-border` | Bordes y divisores |
+| `--color-error` | `text-error` `bg-error` | Validaciones, alertas |
+| `--color-success` | `text-success` `bg-success` | Confirmaciones |
+
+```tsx
+// ✅
+<p className="text-heading">Título</p>
+<p className="text-muted">Descripción</p>
+<button className="bg-primary text-white hover:opacity-90">Acción</button>
+<div className="bg-surface border border-border rounded-md shadow-sm">Card</div>
+<span className="text-error">Campo requerido</span>
+<span className="text-success">Guardado correctamente</span>
+
+// ❌ — nunca hardcodear colores ni usar var() inline
+<p className="text-gray-500">texto</p>
+<p style={{ color: 'var(--color-muted)' }}>texto</p>
+<button className="bg-purple-500">acción</button>
+```
+
+Para hovers suaves con el color primario:
+
+```tsx
+// ✅
+className="text-muted hover:bg-primary-subtle hover:text-primary"
+
+// ❌
+onMouseEnter={e => e.currentTarget.style.background = '...'}
+```
+
+## Tipografía
+
+| Token CSS | Clase Tailwind | Uso |
+|---|---|---|
+| `--font-sans` | `font-sans` | Cuerpo, párrafos, UI general |
+| `--font-heading` | `font-heading` | Títulos y encabezados |
+| `--font-mono` | `font-mono` | Código, valores técnicos |
+
+```tsx
+// ✅
+<h1 className="font-heading text-heading text-3xl font-semibold">Título</h1>
+<p className="font-sans text-muted text-sm">Descripción</p>
+<code className="font-mono text-sm bg-raised px-2 py-1 rounded-sm">npm run dev</code>
+
+// ❌
+<h1 style={{ fontFamily: 'system-ui' }}>Título</h1>
+<p className="font-['Roboto']">texto</p>
+```
+
+Los estilos base de `h1`, `h2`, `p` y `code` ya aplican los tokens automáticamente desde `src/index.css` — no redefinirlos por componente.
+
+## Agregar o modificar tokens
+
+Editar únicamente `src/index.css`: bloque `@theme` para luz, `@media (prefers-color-scheme: dark) :root` para oscuro. No definir colores ni fuentes en ningún otro lugar.
