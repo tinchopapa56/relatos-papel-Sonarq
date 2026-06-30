@@ -1,7 +1,7 @@
 # Relatos de Papel — Frontend
 
 React 19 + TypeScript + Vite + Tailwind CSS v4
-
+test synk
 ---
 
 ## Convenciones del proyecto
